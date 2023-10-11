@@ -1,4 +1,3 @@
-# Summary_of_few_l4dc_23_talks
 
 Summary by : Rohit Reddy and Yashas Shetty
 
@@ -66,6 +65,36 @@ RL forward path is robot pose stare, predicted mean and information in Kalman fi
 They trained the two control policies (Model-based RL and Model-free RL). Training is done on randomized Initial conditions by a randomised number of targets and randomized buyers in the target motion.  This is tested on 3,5,7 number of targets. Observed the results, it efficiently observes compared to others. Have a larger mean and smaller standard deviation in the absolute reward after sufficient episodes. As it has multiple targets, it has to do multiple tracking, priority is based on the uncertainty of each target done by the information matrix. The higher the uncertainty, the priority increases. 
 The paper's contributions align with active target tracking for robotics. Its focus is on practical applications like wildfire detection and security, along with the adaptable control policy. The use of deep view networks and model-free methods speaks to your interest in flexible solutions for various action spaces.  The use of Kalman filter-based target estimation and the probit function for smooth transitions between observed and unobserved regions further solidify the paper's technical depth. It also means the data and testing it with random data points of the random variable. Overall, the paper's technical contributions strongly align with your research goals in advancing effective tracking techniques.
 The open challenges after this paper are to develop RL methods for constant environments with obstacle models FOV and collision avoidance. General target dynamics, applying the conformal prediction to guarantee the probabilistic bound in the unknown target states.  Multi-agent RL where we use Graphical Neural Networks (GNNs). 
+
+# 3. Policy evaluation in distributional LQR
+
+Rewards are designed by random variables and current states and actions. Policies are developed based on the current position. Policy evaluation is done using evaluated return across time with discounted additive time. Aerial reinforcement learning with fixed point solution of bellman equation. 
+Before this paper, distributional Reinforcement Learning (DRL) faced challenges in representing and evaluating return distributions. This approach enables robots to make more informed and robust decisions in dynamic environments. For example, drones to navigate in urban landscapes. DRL facilitates the planning actions that account for potential outcomes. 
+Under specific conditions, it is feasible to analytically characterize the fixed-point solution in the context of random distributional returns. The policy is slightly random. The distributional return gives more information than the expected return. This can be done by the distributional approach in a standard LQR program. In static environment policy fixed return is ½ expected return is the same, in dynamic returns the values vary and the expected return is not the same. 
+
+Expected return in RL is ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/454aeaa1-315d-42a4-8795-c06228f1ebf8)
+
+
+
+Bellman Equation is  
+
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/823c7d5f-b59f-4562-8b7c-a9ad00309eae)
+
+Random/Distributional Bellman Equation is ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/ddf5ad04-7b46-4c52-ae19-92586983b4c9)
+
+MDP is now a linear dynamical system.  The dynamic updates are linear, and the input enters linearly and there’s additive disturbance characterised by IID variables VT.  Matrix K is cost rather than a return, but it’s essentially expected discounted additive cost which is a quadratic cost of states and actions given ungiven initial conditions. 
+In the distributional approach of LQR, we drop expectations and work with random costs. Random or distributional cost solves a fixed-point equation and depends on the closed-loop matrix (Ak) and newly introduced matrix (qk). A theorem is proposed for approximation of random cost in Distributional LQG. Assuming the closed loop matrix is stable. 
+For example, with one-dimension additivities, noise it is not possible to characterize explicitly random return in distributional LQR. So we use Monte Carlo Samples to obtain a surrogate of this return distribution we use 10k and we provide the distribution of the approximated random return which are the FN functions in the plots for different values of the discount Factor Gamma either small or equal to 0.6 or larger equal to 0.85 which is the usual values that are largely used in RL. As gamma increases you require more n’s more terms to provide a closed approximation. It also says that if the initial state is small then the distribution is close to the chi-square 1. If the distributions are large then the distributions are closer to be Gaussian and this depends on the terms that dominate the shape of the approximated returns. 
+ 
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/89ee992d-9302-4350-adea-e84fd0f0ef26)
+
+Policy improvements are done risk-averse LQR, used to leverage the closed-loop form expression of the random return. Zeroth order approximation essentially initializes matrix gain and randomizes it with random matrix UT is a norm that is bounded by delta. We compute the approximated distribution return based on associated conditional value and risk and update the gain with the one-step update. 
+
+For experiments with discount factor gamma =0 we used 2000 steps in the algorithm. Alpha = 1, derives the original matrix gain K corrected to the LQR problem and the rest of the alpha values have different original matrix gain.  
+  
+To conclude, we’ve shown that in a distributional approach to LQR, we can come up with an analytical expression of the random cost, which depends on an infinite number of random variables. So introduced an approximation that depends on truncating this infinite series and applied this approximation to a risk-averse LQR. 
+
+Future work, extension to LQG towards linear quadratic regulators using model-free policy evaluation that actually uses approximation bounds which is not done in this paper and 
 
 
 # 4. Agile Catching with Whole-Body MPC and Blackbox Policy Learning 
