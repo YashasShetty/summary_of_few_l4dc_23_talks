@@ -14,7 +14,7 @@ Source :<https://l4dc.seas.upenn.edu/oral-presentations-program/#oral1>
 
 The common theme of these topics is policy learning. We explored different types of policy learning presented in the conference.
 
-#1. Model Predictive Control via On-Policy Imitation Learning 
+# 1. Model Predictive Control via On-Policy Imitation Learning 
 Source : <https://proceedings.mlr.press/v211/ahn23a/ahn23a.pdf>
 The first  paper deals with finding an efficient way of finding a controller for constrained linear systems. The presenters choose MPC as it is able to stabilize a constrained linear system as opposed to an LQR controller. MPC is also useful in many applications, has inherent robustness and works well in practice. The idea of MPC is  
  
@@ -34,13 +34,13 @@ There could also be a method to combine the above method directly with the polic
 
 
 
-#4. Agile Catching with Whole-Body MPC and Blackbox Policy Learning 
+# 4. Agile Catching with Whole-Body MPC and Blackbox Policy Learning 
 Source <https://sites.google.com/view/agile-catching>, <https://arxiv.org/pdf/2306.08205.pdf>
 
 The first talk studies the relative merits of using an MPC vs Blackbox policy learning for a high-speed robotic catching application. The known advantages of an MPC are zero-shot learning, no distribution. Although it might be sensitive to model errors and is computationally complex. On the other hand, Blackbox policy learning does not need accurate dynamics and its policy inference is quite efficient. However, it is prone to distribution shift and is data insensitive.  Analyses of both these methods are presented.
 Firstly, the MPC method is explained. Catching is formulated as a free-end-time constrained control trajectory norm minimization optimal control problem(OCP). 
 
-/MPC_formal1.png
+/MPC_formula1.png
 
  
   Ball catching is determined by the below two terms,
