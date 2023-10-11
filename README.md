@@ -54,6 +54,8 @@ There are two types of considerations to the policy,
 1. Joint position history
 2. Predicted ball trajectory
 These considerations are processes through two CNNs and their outputs are concatenated and post processed by fully connected layers to produce joint velocity commands. 
+
+
 Reward Design: The following terms are combined to formulate a scalar  reward function. Note that different terms are used in simulation and reality.
 1. Object Orientation Reward (sim)
 2. Object stability Reward (sim)
