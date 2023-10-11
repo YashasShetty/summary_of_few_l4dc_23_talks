@@ -22,14 +22,21 @@ Source :<https://l4dc.seas.upenn.edu/oral-presentations-program/#oral1>
 Source : <https://proceedings.mlr.press/v211/ahn23a/ahn23a.pdf>
 
 The first  paper deals with finding an efficient way of finding a controller for constrained linear systems. The presenters choose MPC as it is able to stabilize a constrained linear system as opposed to an LQR controller. MPC is also useful in many applications, has inherent robustness and works well in practice. The idea of MPC is  
+
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/68f0dc14-f545-4ad8-8fa1-8f7d728a1724)
+
  
 The limitation is that we have to solve an optimization problem at each iteration which becomes very complicated for a higher dimensional system. One can use explicit MPC to overcome this issue, but it is very hard to precompute and store. To overcome this problem, learning approach is used.
+
 The paper introduces an interesting idea of imitation learning on Model Predictive Control. The goal is to learn the expert policy/controller based on its demonstrations. This could be a human demo as well.  We can use behavior cloning to learn the states along the expert trajectory. However, in higher dimensional cases even small approximation errors could lead to distribution shift.  To solve this problem, we use a time varying controller and apply Forward Training Algorithm where instead of learning the policy, we learn on trajectory of the expert.  
+
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/75f1af82-514a-44c6-99a2-fbfdbc27beaf)
+
  
 The drawback of using Forward Training Algorithm is that the number of stages increases with T. To make these number of stages finite, we use a property of the MPC which helps in terminating the iterations. The property is that a region near the origin, called as the positive invariance region, the MPC policy is same as the LQR policy. So whenever a we reach a state in the positive invariance region, we know that policy is going to follow LQR thereafter. Hence we can terminate the policy easily from there.
 Another theorem coming out of the paper is as follows
 
- 
+ ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/e0489405-2153-4948-9c92-99fbeb0cf4ba)
 
 
 In our opinion, the presentation properly addresses the issues with each controller type, each approach. After that a method to handle the drawback of each approach is mentioned which is quite helpful.  The use of a learning approach to solve controllers is very helpful for dynamic applications. Furthermore, it is interesting to see the final approach circle back to the computation of an LQR which was rejected at the very start. 
@@ -38,6 +45,7 @@ There could also be a method to combine the above method directly with the polic
 
 # 2. Policy Learning for Active Target Tracking over Continuous Trajectories
 
+Source <https://proceedings.mlr.press/v211/yang23a/yang23a.pdf>
 Planning the trajectory of a sensing robot to reduce the uncertainty in the state of the dynamic target of interest which has been motivated by diverse applications such as wildfire detection, security and surveillance, passage envision and so on. 
 
 Traditional active target tracking problem has been studied by the method of optimization the past planning-based techniques this work considers how to run the control policy for active target tracking that generalizes to the different target configurations and motions.  Active target tracking trajectory of a sensing agent. 
@@ -67,6 +75,8 @@ The paper's contributions align with active target tracking for robotics. Its fo
 The open challenges after this paper are to develop RL methods for constant environments with obstacle models FOV and collision avoidance. General target dynamics, applying the conformal prediction to guarantee the probabilistic bound in the unknown target states.  Multi-agent RL where we use Graphical Neural Networks (GNNs). 
 
 # 3. Policy evaluation in distributional LQR
+
+Source: <https://proceedings.mlr.press/v211/wang23c/wang23c.pdf>
 
 Rewards are designed by random variables and current states and actions. Policies are developed based on the current position. Policy evaluation is done using evaluated return across time with discounted additive time. Aerial reinforcement learning with fixed point solution of bellman equation. 
 Before this paper, distributional Reinforcement Learning (DRL) faced challenges in representing and evaluating return distributions. This approach enables robots to make more informed and robust decisions in dynamic environments. For example, drones to navigate in urban landscapes. DRL facilitates the planning actions that account for potential outcomes. 
@@ -160,6 +170,70 @@ SQP: <https://www.youtube.com/watch?v=FAHLIHUf8Tc>
 BB: <https://www.youtube.com/watch?v=QilzQcB-BNU>
 
 The presentation concludes with observation that BB is a better method when it comes to catching success of mechanical throws, however SQP can handle distribution shift significantly better. Hence a possible future study would be to combine these two methods, combine the best of them to get a fused algorithm which is robust than both of them. This work can also be extended to handling of more complex objects like non-spherical objects, wiffle balls. We can also extend in the direction of multi object catching too.
+
+
+# 5. 	Can Direct Latent Model Learning Solve Linear Quadratic Gaussian Control?
+
+Control and RL are based on state space dynamic models. In practice, learning for control systems is a high dimensional. For e.g., for a task like cutting onions, how do evaluate the state space ? The presentation focusses on solving this issue with the specific case of an LQG control.
+
+General approach:
+
+1. Collect data
+
+2. Learn latent model 
+
+3. Optimize the policy in the latent model
+
+Despite a having a lot of research in the field of latent model learning and empirical advances, theoretical understanding is lacking. We don’t know how these empirical latent model learning methods probably perform with finite samples. The motivation for the work is to make sure these empirical methods should pass a sanity-check at least for very basic partially observable control systems.
+
+Another motivation is to find the minimal condition/right objective for latent model learning that works for downstream control tasks 
+There are 3 types of latent models mentioned in the presentation
+
+1. Reconstructing observation: They reconstruct observations from latent styles like an auto encoder 
+Drawback - we might reconstruct something that is  not needed by the task, like reconstructing a tree for a self driving car is not required
+
+2. Inverse model : States are encoded in such a way that actions can be inferred from their transitions
+Drawback – Inverse models infer controllable components but miss relevant information. For .e.g, in the below case where we want more sunlight, we might not find the sun as it is an uncontrollable element
+
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/04fecfbd-df53-42f8-96ae-c65932d9efcc)
+
+Hence, in both of these methods, objectives are task agnostic which does not help in finding cost.
+
+3. (Cumulative) cost prediction: In this approach, the state Is encoded in such a way that it can predict the cost or value (which is the sum of multi state rewards) 
+As cost prediction is required for planning, we consider this to be our model for latent model learning.
+
+Hence we get back to the question, can direct latent model learning solve partially observable control?
+We take a very fundamental partially observable control, which is the Linear Quadratic Gaussian. This formulates our main problem statement and the title of the presentation,
+
+Does direct latent model learning solve LQG control?
+
+The answer is in the form of the below theorem,
+
+Theorem. Given an unknown LQG control problem with horizon T, under standard assumptions including stability, controllability (within l steps) and cost observability, our direct latent model learning algorithm returns, from n collected trajectories,
+• a state representation function that is O(l^(1/2)n^(-1/4))-optimal in the first l steps and O(T^(3/2)n^(1/2))-optimal in the next T- steps;
+• a latent policy that is O((O(1))^l)ln^(-1/4))-optimal in the first steps and O(T^4/n) -optimal in the next T-l steps.
+
+A good state representation of LQG can be learned by only predicting (cumulative) costs.Predicting observation can be avoided to learn LQG. Can be viewed as a new approach to partial system identification in linear control. The insight of predicting cumulative cost in latent model learning has also been observed in MuZero (Schrittwieser et al, 2020)
+
+
+Thus we have the result of which tells upto what extent a latent model learning can solve for LQG control. As we have come up with a learning model for LQG now, we can use this in dynamic environments as well. And as we are solving for an LQG, we also get the robust controller. 
+
+The talk opens up the following challenges for future work
+
+Extend to Linear time invariant systems
+
+Recovering the “recursive” state-representation function i.e. Kalman Filter
+
+Generalizing insights and techniques to 
+
+ Reduce latent model-order control
+ 
+ 
+ Multi task learning
+ 
+ Certain structured nonlinear observations and/or systems
+
+State representation learning for control in general may deserve more theorists’ attention
 
 
 # Conclusion
