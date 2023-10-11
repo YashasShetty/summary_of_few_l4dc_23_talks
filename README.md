@@ -2,20 +2,26 @@
 
 Summary by : Rohit Reddy and Yashas Shetty
 
-We are going to summarize the following topics from the l4dc 2023 conference 
+# Introduction
+
+The Learning for Dynamics & Control Conference is an annual conference which focusses on new finfdngs in the field of control and dynamical systems. 
+It is interdisciplinary, bringing together researchers from control, robotics, machine learning, and optimization
+One of the goals of L4DC is to build strong ties between these disciplines and enable active collaboration 
+The 5th Annual Learning for Dynamics & Control Conference (L4DC) was held from 14 June -16 June 2023 at the University of Pennsylvania.
+We are going to summarize the following topics from the L4DC 2023 conference 
 
 1. Model Predictive Control via On-Policy Imitation Learning 
 2. Policy Learning for Active Target Tracking over Continuous Trajectories 
 3. Policy Evaluation in Distributional LQR 
 4. Agile Catching with Whole-Body MPC and Blackbox Policy Learning 
 
+We decided to summarize a few talks related to policy learning, policy evualtion. As we can see the first talk brings out a novice method where we overcome the issue of complicated computations in MPC by using imititation learning . A policy learning method for active target tracking in a continuous domain has been explained. There is another novice method to calculate a dsitrbutional LQR with  the help of policy learning. We then have a comparison between a Sequential Quadratic Programming solver and Blacbox policy learning method in robot arm catching application. The common theme of these topics is policy learning. We explored different types of policy learning presented in the conference.
+
 Source :<https://l4dc.seas.upenn.edu/oral-presentations-program/#oral1>  
-
-
-The common theme of these topics is policy learning. We explored different types of policy learning presented in the conference.
 
 # 1. Model Predictive Control via On-Policy Imitation Learning 
 Source : <https://proceedings.mlr.press/v211/ahn23a/ahn23a.pdf>
+
 The first  paper deals with finding an efficient way of finding a controller for constrained linear systems. The presenters choose MPC as it is able to stabilize a constrained linear system as opposed to an LQR controller. MPC is also useful in many applications, has inherent robustness and works well in practice. The idea of MPC is  
  
 The limitation is that we have to solve an optimization problem at each iteration which becomes very complicated for a higher dimensional system. One can use explicit MPC to overcome this issue, but it is very hard to precompute and store. To overcome this problem, learning approach is used.
@@ -46,9 +52,11 @@ Firstly, the MPC method is explained. Catching is formulated as a free-end-time 
 1. The position of the ball and center of the net are in proximity.
 2. The net is aligned to the velocity of the ball at the end (i.e., time of catching). 
 
-This catching problem is simplified to a multistage OCP for computational efficiency. The detected ball trajectory is split into multiple stages of variable time interval such that each stage can be seen as a constant acceleration stage followed by a cruise phase (zero acceleration) stage. This multi stage constrained OCP is solved via am o Sequential Quadratic Programming solver. And once the OCP is solved, the ball trajectory can be intercepted. Then an open loop cradling primitive is defined to stably catch the ball. The net is aligned with velocity of the ball while decelerating slowly. 
-The blackbox policy learning method is explained next.  
-The blackbox algorithm works by optimizing the weights of a policy network which takes in robot observations and generates robot commands. The policy weights are updated using an evolutiobnary startergy (es algorithm) which generates gauddian perturbations to current weight estimates and evaluates the perturbed weights on the catching task which is evaluated using a  scalar reward The reward signals are observed by the es algo and a zero order gradient estimate is calculated and used to update the weights of the policy network. A
+This catching problem is simplified to a multistage OCP for computational efficiency. The detected ball trajectory is split into multiple stages of variable time interval such that each stage can be seen as a constant acceleration stage followed by a cruise phase (zero acceleration) stage. This multi stage constrained OCP is solved via a Sequential Quadratic Programming(SQP) solver. And once the OCP is solved, the ball trajectory can be intercepted. Then an open loop cradling primitive is defined to stably catch the ball. The net is aligned with velocity of the ball while decelerating slowly. 
+
+
+The blackbox(BB) policy learning method is explained next.  
+The blackbox algorithm works by optimizing the weights of a policy network which takes in robot observations and generates robot commands. The policy weights are updated using an evolutiobnary startergy (es algorithm) which generates gauddian perturbations to current weight estimates and evaluates the perturbed weights on the catching task which is evaluated using a  scalar reward The reward signals are observed by the es algo and a zero order gradient estimate is calculated and used to update the weights of the policy network.
 
 A representation of the policy architecture is show below
 
@@ -72,8 +80,10 @@ The setup
 
 
 The results of the two methods are shown below.
+
 BB catch success ~ 86%   	SQP catch success ~ 79%
-BB inference time ~ 7ms      	SQP solve time ~ 43ms 
+
+BB inference time ~ 7ms   SQP solve time ~ 43ms 
 
 ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/69ca7ebd-ff63-4ecc-a97c-d20e603673be) 
 ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/3b48f190-7da0-4ff1-8d87-d50be200f7e7)
@@ -94,3 +104,6 @@ BB: <https://www.youtube.com/watch?v=QilzQcB-BNU>
 
 The presentation concludes with observation that BB is a better method when it comes to catching success of mechanical throws, however SQP can handle distribution shift significantly better. Hence a possible future study would be to combine these two methods, combine the best of them to get a fused algorithm which is robust than both of them. This work can also be extended to handling of more complex objects like non-spherical objects, wiffle balls. We can also extend in the direction of multi object catching too.
 
+
+# Conclusion
+The above talks show us various aspects of policy learning, how we can use them with existing methods like LQR, MPC and how we can improve upon these traditional methods by combining all of their desired proporties , how we can use them for applications like target tracking, how the stand when compared to methods like the Sequential Quadratic Programming solver which gives us a good idea of how tradional methods and modern methods can turn out to be complementary. Each talk leaves us with a possibility of improvement, new expiremental ideas and results which can furthen the exising knowledge we have on controllers and policy learning methods.
