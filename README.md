@@ -40,8 +40,7 @@ Source <https://sites.google.com/view/agile-catching>, <https://arxiv.org/pdf/23
 The first talk studies the relative merits of using an MPC vs Blackbox policy learning for a high-speed robotic catching application. The known advantages of an MPC are zero-shot learning, no distribution. Although it might be sensitive to model errors and is computationally complex. On the other hand, Blackbox policy learning does not need accurate dynamics and its policy inference is quite efficient. However, it is prone to distribution shift and is data insensitive.  Analyses of both these methods are presented.
 Firstly, the MPC method is explained. Catching is formulated as a free-end-time constrained control trajectory norm minimization optimal control problem(OCP). 
 
-/MPC_formula1.png
-
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/c39579f0-5ef6-4d2d-b177-cf911dbf17e5)
  
   Ball catching is determined by the below two terms,
 1. The position of the ball and center of the net are in proximity.
@@ -68,16 +67,22 @@ Reward Design: The following terms are combined to formulate a scalar  reward fu
 5. Object catch reward (real) 
 
 The setup 
- 
+
+ ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/24a5524e-0774-40be-bbca-32620e2075e9)
+
 
 The results of the two methods are shown below.
 BB catch success ~ 86%   	SQP catch success ~ 79%
 BB inference time ~ 7ms      	SQP solve time ~ 43ms 
- 
+
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/a915eb23-55e0-4465-9042-46e922e0fe7b) 
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/3b48f190-7da0-4ff1-8d87-d50be200f7e7)
 We can see that while SQP has a constant performance, BB performance varies with the iterations and gets better as the number of iterations increase. It surpasses the performance of SQP after a point. However, these number required iterations is undetermined and can be change when we vary environment and/or change the application.
-  
-It is interesting to note that BB catches the ball on the right side, while SQP has multi modal catching ability. Which is why SQP can catch hand throws and BB fails at that.
- 
+
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/252ad1c7-22cb-4dfa-ab8a-553a9afde1e7)
+It is interesting to note that BB catches the ball on the right side, while SQP has multi modal catching ability. Which is why SQP can catch hand throws and BB fails at that. 
+
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/1e12d8fd-854b-4a2d-bee4-26524c8134e5)
 We can see that SQP is robust across all speeds whereas BB gives good performance at higher speeds. When we change the yaw of the thrower, the catch success is pretty much the same for both methods. 
 
 Links to videos
