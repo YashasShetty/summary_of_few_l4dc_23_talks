@@ -42,10 +42,14 @@ Firstly, the MPC method is explained. Catching is formulated as a free-end-time 
   Ball catching is determined by the below two terms,
 1. The position of the ball and center of the net are in proximity.
 2. The net is aligned to the velocity of the ball at the end (i.e., time of catching). 
+
 This catching problem is simplified to a multistage OCP for computational efficiency. The detected ball trajectory is split into multiple stages of variable time interval such that each stage can be seen as a constant acceleration stage followed by a cruise phase (zero acceleration) stage. This multi stage constrained OCP is solved via am o Sequential Quadratic Programming solver. And once the OCP is solved, the ball trajectory can be intercepted. Then an open loop cradling primitive is defined to stably catch the ball. The net is aligned with velocity of the ball while decelerating slowly. 
 The blackbox policy learning method is explained next.  
 The blackbox algorithm works by optimizing the weights of a policy network which takes in robot observations and generates robot commands. The policy weights are updated using an evolutiobnary startergy (es algorithm) which generates gauddian perturbations to current weight estimates and evaluates the perturbed weights on the catching task which is evaluated using a  scalar reward The reward signals are observed by the es algo and a zero order gradient estimate is calculated and used to update the weights of the policy network. A
+
 A representation of the policy architecture is show below
+
+
 There are two types of considerations to the policy, 
 1. Joint position history
 2. Predicted ball trajectory
