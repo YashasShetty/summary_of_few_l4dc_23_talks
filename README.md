@@ -82,15 +82,18 @@ Rewards are designed by random variables and current states and actions. Policie
 Before this paper, distributional Reinforcement Learning (DRL) faced challenges in representing and evaluating return distributions. This approach enables robots to make more informed and robust decisions in dynamic environments. For example, drones to navigate in urban landscapes. DRL facilitates the planning actions that account for potential outcomes. 
 Under specific conditions, it is feasible to analytically characterize the fixed-point solution in the context of random distributional returns. The policy is slightly random. The distributional return gives more information than the expected return. This can be done by the distributional approach in a standard LQR program. In static environment policy fixed return is ½ expected return is the same, in dynamic returns the values vary and the expected return is not the same. 
 
-Expected return in RL is ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/454aeaa1-315d-42a4-8795-c06228f1ebf8)
+Expected return in RL is 
 
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/454aeaa1-315d-42a4-8795-c06228f1ebf8)
 
 
 Bellman Equation is  
 
 ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/823c7d5f-b59f-4562-8b7c-a9ad00309eae)
 
-Random/Distributional Bellman Equation is ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/ddf5ad04-7b46-4c52-ae19-92586983b4c9)
+Random/Distributional Bellman Equation is 
+
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/ddf5ad04-7b46-4c52-ae19-92586983b4c9)
 
 MDP is now a linear dynamical system.  The dynamic updates are linear, and the input enters linearly and there’s additive disturbance characterised by IID variables VT.  Matrix K is cost rather than a return, but it’s essentially expected discounted additive cost which is a quadratic cost of states and actions given ungiven initial conditions. 
 In the distributional approach of LQR, we drop expectations and work with random costs. Random or distributional cost solves a fixed-point equation and depends on the closed-loop matrix (Ak) and newly introduced matrix (qk). A theorem is proposed for approximation of random cost in Distributional LQG. Assuming the closed loop matrix is stable. 
@@ -219,19 +222,12 @@ A good state representation of LQG can be learned by only predicting (cumulative
 Thus we have the result of which tells upto what extent a latent model learning can solve for LQG control. As we have come up with a learning model for LQG now, we can use this in dynamic environments as well. And as we are solving for an LQG, we also get the robust controller. 
 
 The talk opens up the following challenges for future work
-
-Extend to Linear time invariant systems
-
-Recovering the “recursive” state-representation function i.e. Kalman Filter
-
-Generalizing insights and techniques to 
-
- Reduce latent model-order control
- 
- 
- Multi task learning
- 
- Certain structured nonlinear observations and/or systems
+1.Extend to Linear time invariant systems
+2.Recovering the “recursive” state-representation function i.e. Kalman Filter
+3.Generalizing insights and techniques to 
+4.Reduce latent model-order control
+5.Multi task learning
+6.Certain structured nonlinear observations and/or systems
 
 State representation learning for control in general may deserve more theorists’ attention
 
