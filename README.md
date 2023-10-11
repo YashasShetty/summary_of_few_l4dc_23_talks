@@ -37,7 +37,32 @@ In our opinion, the presentation properly addresses the issues with each control
 The presenters mention in the paper that an alternative approach to their method would be to learn the value function of the policy. We could use the value of each expert demonstration to improve the performance of imitation learning algorithms. It would be interesting to see if properties of MPC value function namely being convex and piecewise quadratic make learning value functions better.  
 There could also be a method to combine the above method directly with the policy optimization approach.
 
+# 2. Policy Learning for Active Target Tracking over Continuous Trajectories
 
+Planning the trajectory of a sensing robot to reduce the uncertainty in the state of the dynamic target of interest which has been motivated by diverse applications such as wildfire detection, security and surveillance, passage envision and so on. 
+Traditional active target tracking problem has been studied by the method of optimization the past planning-based techniques this work considers how to run the control policy for active target tracking that generalizes to the different target configurations and motions.  Active target tracking trajectory of a sensing agent. 
+Prior to the paper, there was no policy to run a control policy to maximize the log determinant of the information matrix at the terminal time. Before the introduction of the model outlined in this paper, active target tracking faced a multitude of challenges. Uncertainty in target state estimation, influenced by both target motion and sensor observations, posed a significant hurdle. Agents equipped with sensors featuring a limited field of view (FOV) struggled to get accurate sensor measurements, decreasing their ability to gather precise information about the target's state. Considering the constraints of the FOV, planning trajectories for these agents, was a complex task. Existing approaches were often tailored to specific environments and lacked adaptability to new or dynamically changing scenarios. Achieving stable policy convergence for low-level continuous control in SE(3) agent kinematics using model-free reinforcement learning methods proved challenging. Multi-target tracking introduced further complexity, necessitating efficient resource allocation across different targets. Furthermore, learning control policies across various environments for optimal information acquisition in Simultaneous Localization and Mapping (SLAM) was non-trivial, and striking the right balance between exploration and exploitation in dynamic tracking scenarios remained a key challenge.
+The trajectory planning of the sensing robot to choose optimal path impacts the accuracy of the targets. This can also be used by minimizing uncertainty in dynamic target sites. For example, wildfire detection. 
+Proposed deep view network which is model-free running method over discrete action space. Proximal policy optimisation over continuous action space model-free model. Proposes model-based learning method for dynamic target in continuous action space.  We consider single-agent multiple targets, where a single agent follows a series motion model for the robot post stage which includes both the position and orientation states for a given velocity input. For each target, follow the linear Gaussian model. The onboard sensor on the mobile robot returns to the sensing stage for the target state in a limited view. Using sensor states we employ a target estimator by the Kalman filter
+
+ ![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/e95aa5e5-11c9-4f3e-85cf-7ef8f3b74b6b)
+
+
+Equations of Kalman filter Target estimation which have prediction state and updated state (only for a target within the field of view). 
+ 
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/ee5be859-5a21-415c-a166-a668f0acc687)
+
+![image](https://github.com/YashasShetty/summary_of_few_l4dc_23_talks/assets/112819834/3aff0574-5fc0-411b-a512-d80dc28a0d72)
+
+The distance d(q,f) is negative because the set F or if Q is in the field of view returns a positive distance.
+
+probit function Is approximating a discontinuous step function by a continuous smooth function in particular gaussian CDF.  Unobserved region to observed region from 0 to 1.
+
+Model-based reinforcement learning algorithm to obtain optimal policy parameter given initial pp.
+RL forward path is robot pose stare, predicted mean and information in Kalman filter in differential field of view. After calculating the gradient parameter using the terminal condition of the sensitivity variable. The analytical gradient of the reward function is given by a trace operator w.r.t sensitivity variable by taking the gradient of the information updates and robot ss3 model.
+They trained the two control policies (Model-based RL and Model-free RL). Training is done on randomized Initial conditions by a randomised number of targets and randomized buyers in the target motion.  This is tested on 3,5,7 number of targets. Observed the results, it efficiently observes compared to others. Have a larger mean and smaller standard deviation in the absolute reward after sufficient episodes. As it has multiple targets, it has to do multiple tracking, priority is based on the uncertainty of each target done by the information matrix. The higher the uncertainty, the priority increases. 
+The paper's contributions align with active target tracking for robotics. Its focus is on practical applications like wildfire detection and security, along with the adaptable control policy. The use of deep view networks and model-free methods speaks to your interest in flexible solutions for various action spaces.  The use of Kalman filter-based target estimation and the probit function for smooth transitions between observed and unobserved regions further solidify the paper's technical depth. It also means the data and testing it with random data points of the random variable. Overall, the paper's technical contributions strongly align with your research goals in advancing effective tracking techniques.
+The open challenges after this paper are to develop RL methods for constant environments with obstacle models FOV and collision avoidance. General target dynamics, applying the conformal prediction to guarantee the probabilistic bound in the unknown target states.  Multi-agent RL where we use Graphical Neural Networks (GNNs). 
 
 
 # 4. Agile Catching with Whole-Body MPC and Blackbox Policy Learning 
